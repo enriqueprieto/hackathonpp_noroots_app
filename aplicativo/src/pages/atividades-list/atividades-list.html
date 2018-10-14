@@ -1,0 +1,57 @@
+<!--
+  Generated template for the AtividadesListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-buttons left>
+            <button ion-button (click)="navCtrl.pop()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+        <ion-col text-center>
+          <ion-title>Atividades</ion-title>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid fixed padding>
+    <div class="app-header">
+      <h2>Lista de <strong>atividades</strong></h2>
+      <p>Visualize, remova e adicione uma nova atividade</p>
+    </div>
+    <ion-list *ngIf="atividades!=null">
+      <button ion-item *ngFor="let atividade of atividades" (click)="click2View(atividade)">
+        <ion-icon name="checkbox-outline" color="primary" item-start></ion-icon>
+        <h3>Quarto {{ atividade.room.number }}</h3>
+        <p>
+          <strong>Serviço:</strong> {{ atividade.service.name }}
+        </p>
+        <p>
+          <strong>Camareira:</strong> {{ atividade.camareira.name }}
+        </p>
+        <ion-badge *ngIf="atividade.status == 'Pendente' " color="ticket_pending" small item-end>Pendente</ion-badge>
+        <ion-badge *ngIf="atividade.status == 'Fazendo' " color="ticket_doing" small item-end>Fazendo</ion-badge>
+        <ion-badge *ngIf="atividade.status == 'Feito' " color="ticket_done" small item-end>Feito</ion-badge>
+        <ion-badge *ngIf="atividade.status == 'Concluído' " color="ticket_finish" small item-end>Concluído</ion-badge>
+      </button>
+    </ion-list>
+    <p *ngIf="atividades==null">
+      Não encontramos nenhuma atividade cadastrada, adicione uma nova atividade.
+    </p>
+    <ion-fab right bottom>
+      <button ion-fab color="secondary" (click)="click2Add()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
+  </ion-grid>
+</ion-content>

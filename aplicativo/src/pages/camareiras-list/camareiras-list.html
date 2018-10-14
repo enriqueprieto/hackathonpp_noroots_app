@@ -1,0 +1,48 @@
+<!--
+  Generated template for the CamareirasListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-buttons left>
+            <button ion-button (click)="navCtrl.pop()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+        <ion-col text-center>
+          <ion-title>Camareiras</ion-title>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid fixed padding>
+    <div class="app-header">
+      <h2>Lista de todas suas <strong>camareiras</strong></h2>
+    </div>
+    <ion-list *ngIf="camareiras != null">
+      <ion-item-group>
+        <button ion-item *ngFor="let item of camareiras" (click)="click2View(item)">
+          <ion-icon name="contact" color="primary" item-start></ion-icon>
+          <h3>{{ item.name }}</h3>
+        </button>
+      </ion-item-group>
+    </ion-list>
+    <p *ngIf="camareiras == null || camareiras.length == 0">
+      Não encontramos nenhuma camareira, adicione uma para atribuir atividades para a mesma.
+    </p>
+  </ion-grid>
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="click2Add()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

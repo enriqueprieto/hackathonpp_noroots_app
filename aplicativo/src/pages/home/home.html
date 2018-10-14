@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary" text-center>
+    <ion-title>
+      Governanta Go
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed padding>
+    <div class="app-header">
+      <h2>Bem-vinda <strong>=D</strong></h2>
+      <p>Acesse o menu ou as opções abaixo para acessar as funcionalidades do aplicativo.</p>
+    </div>
+    <ion-list>
+      <ion-item-group>
+        <ion-item-divider color="light">
+          Selecione uma das opções abaixo
+        </ion-item-divider>
+        <button ion-item (click)="click2Camareiras()">
+          <ion-icon item-start name="people" color="primary"></ion-icon>
+          <h3>Camareiras</h3>
+        </button>
+        <button ion-item (click)="click2Atividades()">
+          <ion-icon item-start name="checkbox-outline" color="primary"></ion-icon>
+          <h3>Atividades</h3>
+        </button>
+        <button ion-item (click)="click2Quartos()">
+          <ion-icon item-start name="home" color="primary"></ion-icon>
+          <h3>Quartos</h3>
+        </button>
+      </ion-item-group>
+    </ion-list>
+  </ion-grid>
+</ion-content>

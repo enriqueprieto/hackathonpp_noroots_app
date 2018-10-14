@@ -1,0 +1,75 @@
+<!--
+  Generated template for the AtividadesViewPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-buttons left>
+            <button ion-button (click)="navCtrl.pop()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+        <ion-col text-center>
+          <ion-title>Visualizar Atividade</ion-title>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <div *ngIf="atividade!=null">
+    <div class="app-header">
+      <h2>Visualizar a <strong>atividade</strong></h2>
+    </div>
+    <p>
+      <strong>Status</strong><br>
+      <ion-badge color="ticket_pending" *ngIf="atividade.status == 'Pendente'">Pendente</ion-badge>
+      <ion-badge color="ticket_doing" *ngIf="atividade.status == 'Fazendo'">Fazendo</ion-badge>
+      <ion-badge color="ticket_done" *ngIf="atividade.status == 'Feito'">Feito</ion-badge>
+      <ion-badge color="ticket_finish" *ngIf="atividade.status == 'Concluído'">Concluído</ion-badge>
+    </p>
+    <p>
+      <strong>Quarto</strong><br>
+      {{ atividade.room.number }}
+    </p>
+    <p>
+      <strong>Serviço</strong><br>
+      {{ atividade.service.name }}
+    </p>
+    <p>
+      <strong>Camareira responsável</strong><br>
+      {{ atividade.camareira.name }}
+    </p>
+    <p>
+      <strong>Solicitado (data e hora)</strong><br>
+      {{ atividade.created.date }} {{ atividade.created.time }}
+    </p>
+    <div *ngIf="atividade.status == 'Pendente'">
+      <button ion-button block round color="secondary">
+        <ion-icon name="play" style="margin-right: 5px;"></ion-icon> 
+        Iniciar atividade
+      </button>      
+    </div>
+    <div *ngIf="atividade.status == 'Fazendo'">
+      <button ion-button block round color="primary" outline>
+        Adicionar consumo
+      </button>
+      <button ion-button block round color="primary" outline>
+        Solicitar manutenção
+      </button>
+      <button ion-button block round color="primary" outline>
+        Solicitar lavanderia
+      </button>
+      <button ion-button block round color="secondary">
+        Finalizar atividade
+      </button>
+    </div>
+  </div>
+</ion-content>

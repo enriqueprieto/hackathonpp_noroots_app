@@ -1,0 +1,49 @@
+<!--
+  Generated template for the QuartosViewPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-buttons left>
+            <button ion-button (click)="navCtrl.pop()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+        <ion-col text-center>
+          <ion-title>Quarto: {{ quarto.number }}</ion-title>
+        </ion-col>
+        <ion-col>
+          <ion-buttons right>
+            <button ion-button (click)="click2Remove()">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <p>
+    <strong>Número:</strong><br>
+    {{ quarto.number }}
+  </p>
+  <p>
+    <strong>Camas:</strong><br>
+    {{ quarto.single_bed }} solteiro <br>
+    {{ quarto.double_bed }} casal
+  </p>
+  <p>
+    <strong>Andar: </strong><br>
+    {{ quarto.floor }}' andar
+  </p>
+</ion-content>
