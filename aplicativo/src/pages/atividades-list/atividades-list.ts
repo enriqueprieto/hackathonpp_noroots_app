@@ -53,7 +53,7 @@ export class AtividadesListPage {
       this.atividades = data;
     });
   }
-
+  
   click2View(item){
     let modal = this.modalCtrl.create(AtividadesViewPage, {
       'atividade': item

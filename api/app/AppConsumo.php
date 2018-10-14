@@ -10,21 +10,39 @@ use Illuminate\Database\Eloquent\Model;
 
 class AppConsumo extends Model
 {
+    protected $table = 'app_consumo';
     static function getAll(){
         $result = array();
         $query = DB::table('app_consumo as c')
-                ->join('app_camareiras as c2', 'c2.id', '=', 'c.camareira_id')
-                ->join('app_quartos as q', 'q.id', '=', 'c.quarto_id')
-                ->select('c.id as id', 'c2.id as camareira_id','c2.nome as camareira'
-                , 'q.numero as numero', 'q.andar as andar')->get();
+                ->join('app_itens_consumo as ic', 'ic.consumo_id', '=', 'c.id')
+                ->join('app_produtos as p', 'ic.produto_id', '=', 'p.id')
+                
+                ->select('p.id as id','p.nome as nome','ic.qtde as qtde')->get();
         $i = 0;
         foreach($query as $item){
             $result[$i]['id'] = $item->id;
-            $result[$i]['camareira_id'] = $item->camareira_id;
-            $result[$i]['camareira'] = $item->camareira;
-            $result[$i]['number'] = $item->numero;
-            $result[$i]['floor'] = $item->andar;
+            $result[$i]['name'] = $item->nome;
+            $result[$i]['count'] = $item->qtde;
+            $i++;
         }
+        return $result;
+    }
+
+    static function getByAtividade($id){
+        $result = array();
+        $query = DB::table('app_consumo as c')
+                ->join('app_itens_consumo as ic', 'ic.consumo_id', '=', 'c.id')
+                ->join('app_produtos as p', 'ic.produto_id', '=', 'p.id')
+                ->where('atividade_id',$id)
+                ->select('p.id as id','p.nome as nome','ic.qtde as qtde')->get();
+        $i = 0;
+        foreach($query as $item){
+            $result[$i]['id'] = $item->id;
+            $result[$i]['name'] = $item->nome;
+            $result[$i]['count'] = $item->qtde;
+            $i++;
+        }
+        
         return $result;
     }
 }

@@ -20,6 +20,10 @@ import { AtividadesListPage } from '../pages/atividades-list/atividades-list';
 import { AtividadesViewPage } from '../pages/atividades-view/atividades-view';
 import { AtividadesAddPage } from '../pages/atividades-add/atividades-add';
 import { ServicosProvider } from '../providers/servicos/servicos';
+import { AtividadesConsumoAddPage } from '../pages/atividades-consumo-add/atividades-consumo-add';
+import { AtividadesManutencoesAddPage } from '../pages/atividades-manutencoes-add/atividades-manutencoes-add';
+import { AtividadesLavanderiaAddPage } from '../pages/atividades-lavanderia-add/atividades-lavanderia-add';
+import { ProdutosProvider } from '../providers/produtos/produtos';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,10 @@ import { ServicosProvider } from '../providers/servicos/servicos';
     QuartosAddPage,
     AtividadesListPage,
     AtividadesViewPage,
-    AtividadesAddPage
+    AtividadesAddPage,
+    AtividadesConsumoAddPage,
+    AtividadesManutencoesAddPage,
+    AtividadesLavanderiaAddPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +59,10 @@ import { ServicosProvider } from '../providers/servicos/servicos';
     QuartosAddPage,
     AtividadesListPage,
     AtividadesViewPage,
-    AtividadesAddPage
+    AtividadesAddPage,
+    AtividadesConsumoAddPage,
+    AtividadesManutencoesAddPage,
+    AtividadesLavanderiaAddPage
   ],
   providers: [
     StatusBar,
@@ -62,7 +72,8 @@ import { ServicosProvider } from '../providers/servicos/servicos';
     HttpClientModule,
     QuartosProvider,
     AtividadesProvider,
-    ServicosProvider
+    ServicosProvider,
+    ProdutosProvider
   ]
 })
 export class AppModule {}

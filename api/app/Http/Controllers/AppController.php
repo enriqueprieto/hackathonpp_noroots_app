@@ -149,7 +149,7 @@ class AppController extends Controller
             $result = array(); 
             try{
                 $result['status'] = true;
-                $result['room'] = AppServicos::getAll();
+                $result['atividades'] = AppServicos::getAll();
             }catch(Exception $e){
                 $result['status'] = false;
                 $result["msg"] = $e->getMessage();
@@ -160,31 +160,8 @@ class AppController extends Controller
         public function get_atividades_id($id){
             $result = array(); 
             try{
-                $query = DB::table('app_camareira_quartos as cq')
-                            ->join('app_camareiras as c', 'c.id', '=', 'cq.camareira_id')
-                            ->join('app_quartos as q', 'q.id', '=', 'cq.quarto_id')
-                            ->join('app_status as s', 's.id', '=', 'cq.status_id')
-                            ->join('app_servicos as s2', 's2.id', '=', 'cq.servico_id')
-                            ->where('cq.id','=',$id)
-                            ->select('cq.id as id','c.nome as camareira','q.numero as numero',
-                            'q.andar as andar','s.status as status','s2.tipo as servico',
-                            'q.cama_solteiro as cama_solteiro', 'q.cama_casal as cama_casal','q.banheira as banheira')
-                            ->get();
-
-                $i = 0;
-                foreach($query as $item){
-                    $result[$i]['id'] = $item->id;
-                    $result[$i]['camareira'] = $item->camareira;
-                    $result[$i]['number'] = $item->numero;
-                    $result[$i]['floor'] = $item->andar;
-                    $result[$i]['room']['status'] = $item->status;
-                    $result[$i]['room']['service'] = $item->servico;
-                    $result[$i]['room']['single_bed'] = $item->cama_solteiro;
-                    $result[$i]['room']['double_bed'] = $item->cama_casal;
-                    $result[$i]['room']['bathtub'] = $item->banheira;
-                    $i++;
-                }
                 $result['status'] = true;
+                $result['atividades'] = AppServicos::getById($id);
             }catch(Exception $e){
                 $result['status'] = false;
                 $result["msg"] = $e->getMessage();
@@ -192,21 +169,35 @@ class AppController extends Controller
             return $result;
         }
 
+        public function get_atividades_selecao(){
+            $result = array(); 
+            try{
+                $result['quartos'] = AppQuartos::getAll();
+                $result['servicos'] = AppServicos::getAllServicos();
+                $result['camareiras'] = AppCamareiras::getAll();
+                $result['status'] = true;
+            }catch(Exception $e){
+                $result['status'] = false;
+                $result["msg"] = $e->getMessage();
+            }
+            return $result;
+        }
+        
         public function add_atividade(Request $request){
             $result = array(); 
             try{
-                $params['numero'] = $request->number;
+                $params['numero'] = $request->room;
                 $params['servico'] = $request->service;
                 $params['camareira'] = $request->camareira;
 
                 $atv = new AppCamareiraQuartos();
-                $atv->numero_id = $params['numero']; 
+                $atv->quarto_id = $params['numero']; 
                 $atv->servico_id = $params['servico']; 
                 $atv->camareira_id = $params['camareira'];  
-                $atv->status = 1;
+                $atv->status_id = 1;
                 $atv->save();
                 $result['status'] = true;
-                $result['room'] = AppServicos::getAll();
+                $result['atividades'] = AppServicos::getAll();
             }catch(Exception $e){
                 $result['status'] = false;
                 $result["msg"] = $e->getMessage();
@@ -224,7 +215,7 @@ class AppController extends Controller
                 if($atv->get()->count() > 0){
                     $atv->delete();
                     $result['status'] = true;
-                    $result['room'] = AppServicos::getAll();
+                    $result['atividades'] = AppServicos::getAll();
                 }else{
                     $result['status'] = false;
                     $result["msg"] = 'Atividade não encontrada';
@@ -248,7 +239,7 @@ class AppController extends Controller
                     $args['status_id'] = $params['status_id'];
                     $atv->update($args);
                     $result['status'] = true;
-                    $result['sevices'] = AppServicos::getAll();
+                    $result['atividade'] = AppServicos::getById($params['id']);
                 }else{
                     $result['status'] = false;
                     $result["msg"] = 'Atividade não encontrada';
@@ -264,6 +255,18 @@ class AppController extends Controller
             CONSUMO
         *****************************************************************************
     */
+        public function get_produtos(){
+            $result = array(); 
+            try{
+                $result['status'] = true;
+                $result['product'] = Appprodutos::getAll();
+            }catch(Exception $e){
+                $result['status'] = false;
+                $result["msg"] = $e->getMessage();
+            }
+            return $result;
+        }
+
         public function get_consumo(){
             $result = array(); 
             try{
@@ -280,11 +283,12 @@ class AppController extends Controller
             $result = array(); 
             try{
                 $query = DB::table('app_consumo as c')
-                        ->join('app_camareiras as c2', 'c2.id', '=', 'c.camareira_id')
-                        ->join('app_quartos as q', 'q.id', '=', 'c.quarto_id')
-                        ->where('id', '=', $id)
-                        ->select('c.id as id', 'c2.id as camareira_id','c2.nome as camareira'
-                        , 'q.numero as numero', 'q.andar as andar')->get();
+                    ->join('app_camareira_quartos as cq', 'cq.id', '=', 'c.atividade_id')
+                    ->join('app_quartos as q', 'q.id', '=', 'cq.quarto_id')
+                    ->join('app_camareiras as c2', 'c2.id', '=', 'cq.camareira_id')
+                    ->where('id', '=', $id)
+                    ->select('c.id as id', 'c2.id as camareira_id','c2.nome as camareira'
+                    , 'q.numero as numero', 'q.andar as andar')->get();
 
                 foreach($query as $item){
                     $result['id'] = $item->id;
@@ -313,22 +317,21 @@ class AppController extends Controller
         public function add_consumo(Request $request){
             $result = array(); 
             try{
-                $params['camareira_id'] = $request->camareira;
-                $params['quarto_id'] = $request->number;
+                $params['atividade_id'] = $request->atividade;
                 $params['produto'] = $request->product;
                 
                 $consumo = new AppConsumo();
-                $consumo->camareira_id = $params['camareira_id'];
-                $consumo->quarto_id = $params['quarto_id'];
+                $consumo->atividade_id = $params['atividade_id'];
                 $consumo->save();
                 foreach($params['produto'] as $item){
-                    $produto = AppItensConsumo();
+                    $produto = new AppItensConsumo();
                     $produto->consumo_id = $consumo->id;
-                    $produto->produto_id = $item->id;
+                    $produto->produto_id = $item['id'];
+                    $produto->qtde = $item['count'];
                     $produto->save();
                 }
                 $result['status'] = true;
-                $result['consum'] = AppConsumo::getAll();
+                $result['atividade'] = AppServicos::getById($params['atividade_id']);
             }catch(Exception $e){
                 $result['status'] = false;
                 $result["msg"] = $e->getMessage();
@@ -357,10 +360,12 @@ class AppController extends Controller
             $result = array(); 
             try{
                 $query = DB::table('app_manutencao as m')
-                ->join('app_camareiras as c', 'c.id', '=', 'm.camareira_id')
-                ->join('app_quartos as q', 'q.id', '=', 'm.quarto_id')
-                ->select('m.id as id', 'c.id as camareira_id','c.nome as camareira'
-                ,'q.numero as numero', 'q.andar as andar')->get();
+                    ->join('app_camareira_quartos as cq', 'cq.id', '=', 'm.atividade_id')
+                    ->join('app_camareiras as c', 'c.id', '=', 'cq.camareira_id')
+                    ->join('app_quartos as q', 'q.id', '=', 'cq.quarto_id')
+                    ->where('id', '=', $id)
+                    ->select('m.id as id', 'c.id as camareira_id','c.nome as camareira'
+                    ,'q.numero as numero', 'q.andar as andar')->get();
 
                 foreach($query as $item){
                     $result['id'] = $item->id;
@@ -381,17 +386,15 @@ class AppController extends Controller
         public function add_manutencao(Request $request){
             $result = array(); 
             try{
-                $params['camareira_id'] = $request->camareira;
-                $params['quarto_id'] = $request->number;
+                $params['atividade'] = $request->atividade;
                 $params['descricao'] = $request->description;
                 
                 $manutencao = new AppManutencao();
-                $manutencao->camareira_id = $params['camareira_id'];
-                $manutencao->quarto_id = $params['quarto_id'];
+                $manutencao->atividade_id = $params['atividade'];
                 $manutencao->descricao = $params['descricao'];
                 $manutencao->save();
                 $result['status'] = true;
-                $result['manutencao'] = AppManutencao::getAll();
+                $result['atividade'] = AppServicos::getById($params['atividade']);
             }catch(Exception $e){
                 $result['status'] = false;
                 $result["msg"] = $e->getMessage();
@@ -420,8 +423,10 @@ class AppController extends Controller
             $result = array(); 
             try{
                 $query = DB::table('app_lavanderia as l')
-                ->join('app_camareiras as c', 'c.id', '=', 'l.camareira_id')
-                ->join('app_quartos as q', 'q.id', '=', 'l.quarto_id')
+                ->join('app_camareira_quartos as cq', 'cq.id', '=', 'l.atividade_id')
+                ->join('app_camareiras as c', 'c.id', '=', 'cq.camareira_id')
+                ->join('app_quartos as q', 'q.id', '=', 'cq.quarto_id')
+                ->where('id', '=', $id)
                 ->select('l.id as id', 'c.id as camareira_id','c.nome as camareira'
                 ,'q.numero as numero', 'q.andar as andar')->get();
   
@@ -444,17 +449,15 @@ class AppController extends Controller
         public function add_lavanderia(Request $request){
             $result = array(); 
             try{
-                $params['camareira_id'] = $request->camareira;
-                $params['quarto_id'] = $request->number;
+                $params['atividade'] = $request->atividade;
                 $params['descricao'] = $request->description;
                 
                 $lavanderia = new AppLavanderia();
-                $lavanderia->camareira_id = $params['camareira_id'];
-                $lavanderia->quarto_id = $params['quarto_id'];
+                $lavanderia->atividade_id = $params['atividade'];
                 $lavanderia->descricao = $params['descricao'];
                 $lavanderia->save();
                 $result['status'] = true;
-                $result['lavanderia'] = AppLavanderia::getAll();
+                $result['atividade'] = AppServicos::getById($params['atividade']);
             }catch(Exception $e){
                 $result['status'] = false;
                 $result["msg"] = $e->getMessage();

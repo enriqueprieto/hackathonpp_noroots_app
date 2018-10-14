@@ -34,18 +34,18 @@
         <ion-icon name="checkbox-outline" color="primary" item-start></ion-icon>
         <h3>Quarto {{ atividade.room.number }}</h3>
         <p>
-          <strong>Serviço:</strong> {{ atividade.service.name }}
+          <strong>Serviço:</strong> {{ atividade.service }}
         </p>
         <p>
-          <strong>Camareira:</strong> {{ atividade.camareira.name }}
+          <strong>Camareira:</strong> {{ atividade.camareira }}
         </p>
         <ion-badge *ngIf="atividade.status == 'Pendente' " color="ticket_pending" small item-end>Pendente</ion-badge>
         <ion-badge *ngIf="atividade.status == 'Fazendo' " color="ticket_doing" small item-end>Fazendo</ion-badge>
         <ion-badge *ngIf="atividade.status == 'Feito' " color="ticket_done" small item-end>Feito</ion-badge>
-        <ion-badge *ngIf="atividade.status == 'Concluído' " color="ticket_finish" small item-end>Concluído</ion-badge>
+        <ion-badge *ngIf="atividade.status == 'Concluido' " color="ticket_finish" small item-end>Concluído</ion-badge>
       </button>
     </ion-list>
-    <p *ngIf="atividades==null">
+    <p *ngIf="atividades==null || atividades.length == 0">
       Não encontramos nenhuma atividade cadastrada, adicione uma nova atividade.
     </p>
     <ion-fab right bottom>

@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Api } from '../../app/models/api';
 import { LoadingController } from 'ionic-angular';
+import { Api } from '../../app/models/api';
 
 /*
-  Generated class for the AtividadesProvider provider.
+  Generated class for the ProdutosProvider provider.
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
 @Injectable()
-export class AtividadesProvider {
+export class ProdutosProvider {
   api:any = new Api();
   endpoint:string = this.api.getEndpoint();
   constructor(
@@ -45,9 +45,9 @@ export class AtividadesProvider {
     return result;
   }
   public getAllByApi(cbSuccess:any, cbError:any = null){
-    let url     = this.endpoint+'app/office/atividades',
+    let url     = this.endpoint+'app/office/produtos',
         loading = this.loadingCtrl.create({
-          content: 'Carregando as atividades'
+          content: 'Carregando os produtos'
         });
     loading.present();
     this.http.get(url, {})
@@ -95,57 +95,6 @@ export class AtividadesProvider {
       }
     };
   }
-  public saveConsumoOnApi(params:any, cbSuccess:any, cbError:any = null){
-    let url     = this.endpoint+'app/office/consumo/add',
-        loading = this.loadingCtrl.create({
-          content: 'Salvando consumo'
-        });
-    loading.present();
-    this.http.post(url, params, {})
-    .subscribe((result:any)=>{
-      loading.dismiss();
-      cbSuccess(result);
-    }), (error:any)=>{
-      loading.dismiss();
-      if(cbError){
-        cbError(error);
-      }
-    };
-  }
-  public saveManutencaoOnApi(params:any, cbSuccess:any, cbError:any = null){
-    let url     = this.endpoint+'app/office/manutencao/add',
-        loading = this.loadingCtrl.create({
-          content: 'Salvando manutenção'
-        });
-    loading.present();
-    this.http.post(url, params, {})
-    .subscribe((result:any)=>{
-      loading.dismiss();
-      cbSuccess(result);
-    }), (error:any)=>{
-      loading.dismiss();
-      if(cbError){
-        cbError(error);
-      }
-    };
-  }
-  public saveLavanderiaOnApi(params:any, cbSuccess:any, cbError:any = null){
-    let url     = this.endpoint+'app/office/lavanderia/add',
-        loading = this.loadingCtrl.create({
-          content: 'Salvando lavanderia'
-        });
-    loading.present();
-    this.http.post(url, params, {})
-    .subscribe((result:any)=>{
-      loading.dismiss();
-      cbSuccess(result);
-    }), (error:any)=>{
-      loading.dismiss();
-      if(cbError){
-        cbError(error);
-      }
-    };
-  }
   public removeOnApi(params:any, cbSuccess:any, cbError:any = null){
     let url     = this.endpoint+'app/office/atividades/remove',
         loading = this.loadingCtrl.create({
@@ -180,4 +129,5 @@ export class AtividadesProvider {
       }
     };
   }
+
 }

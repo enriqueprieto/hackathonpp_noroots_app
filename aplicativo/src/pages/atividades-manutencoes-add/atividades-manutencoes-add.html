@@ -1,0 +1,36 @@
+<!--
+  Generated template for the AtividadesManutencoesAddPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col>
+            <ion-buttons left>
+              <button ion-button (click)="navCtrl.pop()">
+                <ion-icon name="arrow-back"></ion-icon>
+              </button>
+            </ion-buttons>
+          </ion-col>
+          <ion-col text-center>
+            <ion-title>Solicitar manutenção</ion-title>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>Descrição</ion-label>
+      <ion-textarea [(ngModel)]="manutencao.description" name="description" placeholder="Diga a descrição para enviar para a equipe de manutenção"></ion-textarea>
+    </ion-item>
+  </ion-list>
+  <button ion-button block color="secondary" round (click)="clickSave()">
+    Salvar
+  </button>
+</ion-content>

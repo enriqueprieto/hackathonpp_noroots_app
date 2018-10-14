@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { AtividadesViewPage } from './atividades-view';
+import { AtividadesManutencoesAddPage } from './atividades-manutencoes-add';
 import { AtividadesProvider } from '../../providers/atividades/atividades';
 
 @NgModule({
   declarations: [
-    AtividadesViewPage,
+    AtividadesManutencoesAddPage,
   ],
   imports: [
-    IonicPageModule.forChild(AtividadesViewPage),
+    IonicPageModule.forChild(AtividadesManutencoesAddPage),
   ],
   providers: [
     AtividadesProvider
   ]
 })
-export class AtividadesViewPageModule {}
+export class AtividadesManutencoesAddPageModule {}

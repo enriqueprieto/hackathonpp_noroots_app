@@ -33,7 +33,7 @@
       <ion-badge color="ticket_pending" *ngIf="atividade.status == 'Pendente'">Pendente</ion-badge>
       <ion-badge color="ticket_doing" *ngIf="atividade.status == 'Fazendo'">Fazendo</ion-badge>
       <ion-badge color="ticket_done" *ngIf="atividade.status == 'Feito'">Feito</ion-badge>
-      <ion-badge color="ticket_finish" *ngIf="atividade.status == 'Concluído'">Concluído</ion-badge>
+      <ion-badge color="ticket_finish" *ngIf="atividade.status == 'Concluido'">Concluído</ion-badge>
     </p>
     <p>
       <strong>Quarto</strong><br>
@@ -41,33 +41,53 @@
     </p>
     <p>
       <strong>Serviço</strong><br>
-      {{ atividade.service.name }}
+      {{ atividade.service }}
     </p>
     <p>
       <strong>Camareira responsável</strong><br>
-      {{ atividade.camareira.name }}
+      {{ atividade.camareira }}
     </p>
     <p>
       <strong>Solicitado (data e hora)</strong><br>
       {{ atividade.created.date }} {{ atividade.created.time }}
     </p>
+    <p *ngIf="atividade.consum.length > 0">
+      <strong>Consumo</strong><br>
+      <span style="display: block;" *ngFor="let product of atividade.consum">
+        {{ product.count }}x {{ product.name }}
+      </span>
+    </p>
+    <p *ngIf="atividade.manutencao != null">
+      <strong>Manutenção</strong><br>
+      {{ atividade.manutencao.description }}
+    </p>
+    <p *ngIf="atividade.lavanderia != null">
+      <strong>Lavanderia</strong><br>
+      {{ atividade.lavanderia.description }}
+    </p>
     <div *ngIf="atividade.status == 'Pendente'">
-      <button ion-button block round color="secondary">
+      <button ion-button block round color="secondary" (click)="clickChangeStatus2Doing()">
         <ion-icon name="play" style="margin-right: 5px;"></ion-icon> 
         Iniciar atividade
       </button>      
     </div>
+    <div *ngIf="atividade.status == 'Feito'">
+      <button ion-button block round color="secondary" (click)="clickChangeStatus2Finish()">
+        <ion-icon name="checkmark-circle" style="margin-right: 5px;"></ion-icon> 
+        Concluir atividade
+      </button>      
+    </div>
     <div *ngIf="atividade.status == 'Fazendo'">
-      <button ion-button block round color="primary" outline>
+      <button *ngIf="atividade.consum == null || atividade.consum.length == 0" ion-button block round color="primary" outline (click)="click2ConsumoAdd()">
         Adicionar consumo
       </button>
-      <button ion-button block round color="primary" outline>
+      <button *ngIf="atividade.manutencao == null ||  atividade.manutencao.length == 0" ion-button block round color="primary" outline (click)="click2ManutencoesAdd()">
         Solicitar manutenção
       </button>
-      <button ion-button block round color="primary" outline>
+      <button *ngIf="atividade.lavanderia == null || atividade.lavanderia.length == 0" ion-button block round color="primary" outline (click)="click2LavanderiaAdd()">
         Solicitar lavanderia
       </button>
-      <button ion-button block round color="secondary">
+      <button ion-button block round color="secondary" (click)="clickChangeStatus2Done()">
         Finalizar atividade
       </button>
     </div>
